@@ -11,6 +11,9 @@ class SearchContainer extends React.Component {
   constructor(props){
       super(props);
 
+      // Binds
+      this.onSubmit = this.onSubmit.bind(this);
+
       this.state = {
           loading: false,
           results: [],
@@ -32,7 +35,7 @@ class SearchContainer extends React.Component {
       },
       stargazers_count: 10,
       forks_count: 5
-    }
+    };
     return [
       Object.assign({}, repo),
       Object.assign({}, repo),
@@ -46,8 +49,12 @@ class SearchContainer extends React.Component {
       Object.assign({}, repo)
     ]
   }
-  onSubmit(){
-
+  onSubmit(value){
+    this.setState({ loading: true });
+    console.log('submit: ' + value);
+    setTimeout(()=>{
+      this.setState({ loading: true, queried: true, results: this.stubData()})
+    }, 2000);
   }
   /**
    * Render the SearchContainer component
