@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 // Importamos los componentes
 import Header from '../../components/Header'
 import SearchForm from '../../components/SearchForm'
+import RepositoryList from '../../components/RepositoryList';
 
 /**
  * Muestra un buscador, así como la lista de resultados.
@@ -51,9 +52,8 @@ class SearchContainer extends React.Component {
   }
   onSubmit(value){
     this.setState({ loading: true });
-    console.log('submit: ' + value);
     setTimeout(()=>{
-      this.setState({ loading: true, queried: true, results: this.stubData()})
+      this.setState({ search: value, loading: false, queried: true, results: this.stubData()})
     }, 2000);
   }
   /**
@@ -62,8 +62,9 @@ class SearchContainer extends React.Component {
   render() {
     return <main className="container">
       <Header/>
-        <SearchForm onSubmit={this.onSubmit} search={this.state.search} />
-      <h1>Búsqueda</h1>
+      <SearchForm onSubmit={this.onSubmit} search={this.state.search} />
+      <RepositoryList repositories={this.state.results} loading={this.state.loading}
+                      queried={this.state.queried} search={this.state.search}/>
     </main>
   }
 }
