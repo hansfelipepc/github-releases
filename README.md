@@ -1,3 +1,3 @@
 # Github releases
 
-{descripción-pendiente}
+A Github releases checker app, built with ReactJS+Redux and Node.
