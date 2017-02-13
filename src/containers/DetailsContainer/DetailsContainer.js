@@ -42,9 +42,8 @@ class DetailsContainer extends React.Component {
    */
   render() {
     return <main className="container">
-      <Header/>
       <h2>Releases of <b>{this.repoName}</b></h2>
-      <RepositoryList data={this.state.releases} loading={this.state.loading}
+      <ReleaseList data={this.state.releases} loading={this.state.loading}
                       repoName={this.repoName}/>
     </main>;
   }

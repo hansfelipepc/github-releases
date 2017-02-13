@@ -1,3 +1,2 @@
-/**
- * Created by Felipe on 13-02-2017.
- */
+import About from './About';
+export default About;
