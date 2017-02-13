@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react';
 
 // Componentes
+import ReleaseList from '../../components/ReleaseList';
 
 /**
- * Este container muestra los detalles para un repositorio concreto
+ * Este container muestra los detalles para un repo concreto. Se renderiza cuando
+ * un usuario accede a /:user/:repo. En el veremos la lista de releases con
+ * los detalles de cada una de ellas.
  */
 class DetailsContainer extends React.Component {
 
