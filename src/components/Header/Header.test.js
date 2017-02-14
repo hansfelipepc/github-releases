@@ -1,16 +1,14 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from 'enzyme';
 import Header from './Header';
 
-//Definimos escenario
 describe('Header', () => {
-    it('Should render the header of the page', () => {
-        const header = shallow(<Header/>); //nos da instancia de Header
 
-        //Comprobamos que la propiedad text diga tal cosa.
-        expect(header.text()).toEqual('Github Releases');
+  it('Should render the header of the page', () => {
+    const header = render(
+      <Header />
+    );
 
-        //Comprobamo que contenga un h1
-        expect(header.find('h1').length).toEqual(1);
-    })
+    expect(header.text()).toEqual('Github Releases');
+  });
 });

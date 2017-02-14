@@ -9,43 +9,60 @@ import ReleaseList from '../../components/ReleaseList';
  * los detalles de cada una de ellas.
  */
 class DetailsContainer extends React.Component {
+  /**
+   * Props del component
+   */
+  static propTypes = {
+    // Este objeto contiene los valores de los campos definidos en Router
+    // para la URL. En este caso, tendremos :user y :repo
+    params: PropTypes.shape({
+      user: PropTypes.string.isRequired,
+      repo: PropTypes.string.isRequired
+    }).isRequired
+  };
 
-  stubData() {
-    let repo = {
-      name: 'v1.0',
-      html_url: 'https://github.com/Angelmmiguel/material_icons/releases/tag/v2.2.0',
-      author: {
-        login: 'Angel',
-        avatar_url: 'https://avatars.githubusercontent.com/u/4056725?v=3',
-        html_url: 'https://github.com/Angelmmiguel'
-      },
-      published_at: 12018092381213,
-      zipball_url: 'https://github.com/Angelmmiguel/material_icons/archive/v2.2.0.zip',
-      tarball_url: 'https://github.com/Angelmmiguel/material_icons/archive/v2.2.0.tar.gz'
+  /**
+   * Inicializamos el estado
+   */
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      releases: [],
+      loading: true
     }
-    return [
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo),
-      Object.assign({}, repo)
-    ]
+  }
+
+  // Load the data
+  componentDidMount() {
+    fetch(`https://api.github.com/repos/${ this.repoName }/releases`)
+      .then(res => {
+        return res.json()
+      })
+      .then(res => {
+        this.setState({ releases: res, loading: false });
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ loading: false });
+      })
+  }
+
+  // Devuelve el nombre del repo
+  get repoName() {
+    return `${this.props.params.user}/${this.props.params.repo}`;
   }
 
   /**
    * UI del contenedor
    */
   render() {
-    return <main className="container">
-      <h2>Releases of <b>{this.repoName}</b></h2>
-      <ReleaseList data={this.state.releases} loading={this.state.loading}
-                      repoName={this.repoName}/>
-    </main>;
+    return <section>
+      <h2>Releases of <b>{ this.repoName }</b></h2>
+      <ReleaseList data={ this.state.releases } loading={ this.state.loading }
+        repoName={ this.repoName } total={ this.state.releases.length }
+        itemsPerPage={ 5 }/>
+    </section>;
   }
 }
 
