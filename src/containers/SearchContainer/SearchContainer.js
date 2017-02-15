@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 
-// Redux
+// Redux y acciones
 import { connect } from 'react-redux';
 import { startSearch, successSearch } from '../../actions/actions';
 
@@ -14,6 +14,11 @@ import RepositoryList from '../../components/RepositoryList';
  * tipo presential.
  */
 class SearchContainer extends React.Component {
+
+  //Ya no es necesario el estado. Borro constructor, super y this.stare
+  // (ahora se conecta con el store via props) y como ahora ya no sirven los
+  //this.state.X, ahora son this.props.X (mas abajo)
+
   // Definimos los props que nos deben de llegar
   static propTypes = {
     // Dispatch es la funcion que utilizamos para lanzar acciones contra el store.
@@ -30,7 +35,7 @@ class SearchContainer extends React.Component {
   // eslint-disable-next-line
   constructor(props) {
     super(props);
-    // Ya no necesitamos el estado! Todo está en los props
+    // Ya no necesitamos el estado! Tod0 está en los props
     // this.state = { ... }
   }
 
@@ -40,7 +45,9 @@ class SearchContainer extends React.Component {
    */
   onSubmit = value => {
     // Lanzamos la accion!
+    //Lo que antes era this.setState({loading: true, search: value}); ahora es:
     this.props.dispatch(startSearch(value));
+    //es decir, usando Dispatch lanzamos la accion junto con el valor que queremos buscar
     // Realizamos la petición a la API
     fetch(`https://api.github.com/search/repositories?q=${ value }`)
       .then(res => {
@@ -74,9 +81,10 @@ const mapStateToProps = state => {
   // En este caso nos interesan todas las variables del estado, por lo que podríamos
   // devolver una copia de State. Las separamos y las volvemos así a modo
   // ilustrativo
+  //Tomamos lo que necesitamos del estado:
   let { search, loading, results, queried } = state;
   return { search, loading, results, queried };
-}
+};
 
 // Connect es un HOC! Modifica los props de nuestro componente para incluir
 // dispatch, así como los valores que obtengamos del estado

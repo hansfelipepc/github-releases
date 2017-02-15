@@ -9,7 +9,7 @@ export const startSearch = search => {
     type: 'SEARCH_START',
     search
   }
-}
+};
 
 // Retornamos los resultados
 export const successSearch = results => {
